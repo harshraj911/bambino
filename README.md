@@ -31,6 +31,15 @@ Bambino/
 ├── Case_Report_Bambinos_Operations_AI_PM.pdf    # Compulsory PDF Deck / Case Report
 ├── Case_Report_Bambinos_Operations_AI_PM.html   # Source HTML for PDF generation
 ├── loom_video_walkthrough_script.md             # 2-3 minute presentation script for Loom video
+├── interview_case_review_defense_guide.md       # Q&A defense preparation for Head of Ops interview
+├── dashboard/                                   # Real-time React + Vite Operations Command Center
+│   ├── package.json                             # React 19 + Vite + Lucide React dependencies
+│   ├── vite.config.js                           # Vite bundler configuration
+│   ├── index.html                               # React HTML shell
+│   └── src/
+│       ├── App.jsx                              # Full command center UI with webhook simulator & modal
+│       ├── index.css                            # Modern dark-theme styling
+│       └── data/mockData.js                     # 13 pre-loaded production records & active batches
 ├── ops/                                         # Official Operations Track Assets
 │   ├── README.md                                # Official ops guide
 │   └── data/                                    # 5 Official CSV Tables (13 masked production records)
@@ -139,13 +148,26 @@ Ran 9 tests in 0.072s
 OK
 ```
 
-### 3. Open the Morning Live Ops Dashboard
-Open `workflows_or_scripts/dashboard/index.html` directly in any web browser:
+### 3. Launch the React + Vite Operations Command Center
+A complete, real-time interactive React + Vite web application is built in [`dashboard/`](./dashboard).
+
 ```powershell
-# Open on Windows
-Start-Process "workflows_or_scripts/dashboard/index.html"
+# Navigate into the React dashboard directory
+cd dashboard
+
+# Start the Vite development server
+npm run dev
 ```
-Features real-time KPI cards, interactive SLA urgency filters, batch capacity bars, and 1-click triage action modals.
+Open **`http://localhost:5173`** in your browser.
+
+**Interactive Features:**
+- **Simulate Live Webhook:** Click *"Simulate Webhook"* to trigger an incoming renewal event and watch the pipeline auto-schedule classes in under 30 seconds.
+- **Interactive Remediation Modal:** Click any *"Remediate"* / *"Action"* button to preview the drafted WhatsApp/Slack message and simulate 1-click dispatch.
+- **Dynamic SLA Urgent Filters:** Filter by Critical (P0), High (P1), Medium (P2), or Auto-Approved.
+- **Batch Capacity Radar:** Live progress meters monitoring seat saturation across all subjects.
+- **Export Audit CSV:** 1-click download of the complete reconciliation audit log.
+
+*(Note: A standalone static HTML fallback is also preserved at [`workflows_or_scripts/dashboard/index.html`](./workflows_or_scripts/dashboard/index.html)).*
 
 ### 4. Inspect or Re-Generate the PDF Case Report
 ```powershell
