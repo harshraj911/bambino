@@ -1,0 +1,187 @@
+[
+  {
+    "invoice_id": "84903",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Ne***a Ve***a",
+    "recipient_phone": "+91-9833XXXX03",
+    "message_subject": "🎉 Renewal Confirmed — Next Classes Scheduled!",
+    "message_body": "🎉 Dear Ne***a Ve***a, Ka***r Ve***a's renewal for Little Yogi Gita Level 1 is confirmed! 24 sessions have been scheduled with Acharya Nancy S***. 🗓 Days: Wed,Fri at 16:30:00. First session begins on 2026-11-06. Join link: https://bambinos.live/classroom/9203",
+    "cta_action": "ADD_TO_CALENDAR",
+    "calendar_link": "https://bambinos.live/calendar/84903.ics"
+  },
+  {
+    "invoice_id": "84903",
+    "channel": "Slack",
+    "recipient_type": "Educator",
+    "recipient_name": "Acharya Nancy S***",
+    "recipient_id": "1115",
+    "message_subject": "Renewal Auto-Approved & Booked",
+    "message_body": "✅ Renewal Auto-Approved: Ka***r Ve***a has been confirmed for another 24 sessions in LY-G3-Batch-B. Class roster updated automatically.",
+    "cta_action": "VIEW_ROSTER"
+  },
+  {
+    "invoice_id": "84904",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Ri***u Iy***r",
+    "recipient_phone": "+91-9844XXXX77",
+    "message_subject": "🎉 Renewal Confirmed — Next Classes Scheduled!",
+    "message_body": "🎉 Dear Ri***u Iy***r, An***a Iy***r's renewal for Young Communicators Level 2 is confirmed! 24 sessions have been scheduled with Ms. Rhea B***. 🗓 Days: Tue,Thu at 17:00:00. First session begins on 2026-11-05. Join link: https://bambinos.live/classroom/9201",
+    "cta_action": "ADD_TO_CALENDAR",
+    "calendar_link": "https://bambinos.live/calendar/84904.ics"
+  },
+  {
+    "invoice_id": "84904",
+    "channel": "Slack",
+    "recipient_type": "Educator",
+    "recipient_name": "Ms. Rhea B***",
+    "recipient_id": "1102",
+    "message_subject": "Renewal Auto-Approved & Booked",
+    "message_body": "✅ Renewal Auto-Approved: An***a Iy***r has been confirmed for another 24 sessions in YC-G4-Batch-A. Class roster updated automatically.",
+    "cta_action": "VIEW_ROSTER"
+  },
+  {
+    "invoice_id": "84905",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Me***a Pa***l",
+    "recipient_phone": "+91-9855XXXX05",
+    "message_subject": "Bambinos Batch Confirmation Options",
+    "message_body": "Hello Me***a Pa***l, thank you for renewing Re***h Pa***l's Unbox Chess journey! To maintain our low child-to-teacher ratio, Batch 9205 is currently full. We have reserved priority slots for you in two sister batches: \n1️⃣ Sat & Sun at 4:00 PM (Coach Arvind)\n2️⃣ Tue & Thu at 6:00 PM (Coach Arvind)\nReply '1' or '2' to confirm your preferred slot instantly.",
+    "cta_action": "SELECT_SLOT",
+    "quick_actions": [
+      "Option 1 (Weekend 4PM)",
+      "Option 2 (Weekday 6PM)",
+      "Request Callback"
+    ]
+  },
+  {
+    "invoice_id": "84906",
+    "channel": "WhatsApp",
+    "recipient_type": "Educator",
+    "recipient_name": "Ms. Rhea B***",
+    "recipient_phone": "+91-99887766XX",
+    "message_subject": "Urgent: Parent Paid Renewal",
+    "message_body": "Hi Ms. Rhea B***! Parent Fa***n Kh***n has paid ₹18,000.00 for Zo***a Kh***n in YC-GCC-Batch-E. To guarantee Zo***a Kh***n's seat before the next session, tap to confirm renewal details in 1 click: https://bambinos.live/teacher/confirm?inv=84906",
+    "cta_action": "ONE_CLICK_TEACHER_CONFIRM"
+  },
+  {
+    "invoice_id": "84907",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Po***a Jo***i",
+    "recipient_phone": "+91-9877XXXX07",
+    "message_subject": "🎉 Renewal Confirmed — Next Classes Scheduled!",
+    "message_body": "🎉 Dear Po***a Jo***i, Vi***n Jo***i's renewal for Phonics Champions Level 1 is confirmed! 24 sessions have been scheduled with Ms. Simran D***. 🗓 Days: Mon,Thu at 15:30:00. First session begins on 2026-11-05. Join link: https://bambinos.live/classroom/9207",
+    "cta_action": "ADD_TO_CALENDAR",
+    "calendar_link": "https://bambinos.live/calendar/84907.ics"
+  },
+  {
+    "invoice_id": "84907",
+    "channel": "Slack",
+    "recipient_type": "Educator",
+    "recipient_name": "Ms. Simran D***",
+    "recipient_id": "1125",
+    "message_subject": "Renewal Auto-Approved & Booked",
+    "message_body": "✅ Renewal Auto-Approved: Vi***n Jo***i has been confirmed for another 24 sessions in PH-G1-Batch-F. Class roster updated automatically.",
+    "cta_action": "VIEW_ROSTER"
+  },
+  {
+    "invoice_id": "84908",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Ro***n Ma***a",
+    "recipient_phone": "+1-40855XXX08",
+    "message_subject": "🎉 Renewal Confirmed — Next Classes Scheduled!",
+    "message_body": "🎉 Dear Ro***n Ma***a, Si***a Ma***a's renewal for Little Yogi Gita US Track is confirmed! 24 sessions have been scheduled with Acharya Nancy S***. 🗓 Days: Sat,Sun at 09:30:00. First session begins on 2026-11-07. Join link: https://bambinos.live/classroom/9208",
+    "cta_action": "ADD_TO_CALENDAR",
+    "calendar_link": "https://bambinos.live/calendar/84908.ics"
+  },
+  {
+    "invoice_id": "84908",
+    "channel": "Slack",
+    "recipient_type": "Educator",
+    "recipient_name": "Acharya Nancy S***",
+    "recipient_id": "1115",
+    "message_subject": "Renewal Auto-Approved & Booked",
+    "message_body": "✅ Renewal Auto-Approved: Si***a Ma***a has been confirmed for another 24 sessions in LY-US-Batch-G. Class roster updated automatically.",
+    "cta_action": "VIEW_ROSTER"
+  },
+  {
+    "invoice_id": "84909",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Sn***a Ku***i",
+    "recipient_phone": "+91-9899XXXX09",
+    "message_subject": "Bambinos Installment Confirmation & Schedule",
+    "message_body": "Hello Sn***a Ku***i, thank you for your payment of ₹5,250 for Ad***t Ku***i's Unbox Maths renewal! Your child is confirmed for 12 sessions in Batch BM-G3-Batch-H. The second installment of ₹5,250 will be due on Session 10. View your child's schedule here: https://bambinos.live/schedule/68109",
+    "cta_action": "VIEW_SCHEDULE"
+  },
+  {
+    "invoice_id": "84910",
+    "channel": "WhatsApp",
+    "recipient_type": "Educator",
+    "recipient_name": "Coach Arvind K***",
+    "recipient_phone": "+91-99887766XX",
+    "message_subject": "Urgent: Parent Paid Renewal",
+    "message_body": "Hi Coach Arvind K***! Parent Vi***m Re***y has paid ₹11,000.00 for My***a Re***y in CM-G2-Batch-I. To guarantee My***a Re***y's seat before the next session, tap to confirm renewal details in 1 click: https://bambinos.live/teacher/confirm?inv=84910",
+    "cta_action": "ONE_CLICK_TEACHER_CONFIRM"
+  },
+  {
+    "invoice_id": "84911",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "An***i Gu***a",
+    "recipient_phone": "+91-9811XXXX11",
+    "message_subject": "Bambinos.live Renewal Payment Assistance",
+    "message_body": "Hello An***i Gu***a, we noticed that the renewal payment for Is***n Gu***a's Young Communicators Level 1 was unsuccessful on the payment gateway. To ensure uninterrupted learning, please complete the transaction securely using this direct link: https://bambinos.live/pay/retry/84911 . If money was deducted, reply 'RECEIPT' and our team will verify it immediately!",
+    "cta_action": "PAY_NOW_RETRY",
+    "quick_actions": [
+      "Pay Now",
+      "Upload Bank Receipt",
+      "Talk to Counselor"
+    ]
+  },
+  {
+    "invoice_id": "84911",
+    "channel": "Slack",
+    "recipient_type": "Educator",
+    "recipient_name": "Ms. Simran D***",
+    "recipient_id": "1125",
+    "message_subject": "Payment Failed Alert",
+    "message_body": "Hi Ms. Simran D***, the renewal payment for Is***n Gu***a shows 'Failed' on gateway. Our system has automatically sent an interactive retry link to An***i Gu***a. Please do not allocate classes until payment is confirmed.",
+    "cta_action": "VIEW_STUDENT_STATUS"
+  },
+  {
+    "invoice_id": "84912",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "De***k Me***n",
+    "recipient_phone": "+91-9822XXXX12",
+    "message_subject": "Choose Your Preferred Class Timing",
+    "message_body": "Hello De***k Me***n, we received your request for weekend classes for Ta***a Me***n in Gita Level 1! We have opening seats available on Sat & Sun at 11:00 AM with Acharya Nancy. Tap here to confirm this timing: https://bambinos.live/slot-picker/68112?pref=SatSun11",
+    "cta_action": "CONFIRM_NEW_SLOT"
+  },
+  {
+    "invoice_id": "84913",
+    "channel": "WhatsApp",
+    "recipient_type": "Parent",
+    "recipient_name": "Ar***n Ме***a",
+    "recipient_phone": "+91-9833XXXX13",
+    "message_subject": "🎉 Renewal Confirmed — Next Classes Scheduled!",
+    "message_body": "🎉 Dear Ar***n Ме***a, De***a Me***a's renewal for Unbox Science Level 1 is confirmed! 24 sessions have been scheduled with Ms. Mary M***. 🗓 Days: Tue,Thu at 18:00:00. First session begins on 2026-11-05. Join link: https://bambinos.live/classroom/9213",
+    "cta_action": "ADD_TO_CALENDAR",
+    "calendar_link": "https://bambinos.live/calendar/84913.ics"
+  },
+  {
+    "invoice_id": "84913",
+    "channel": "Slack",
+    "recipient_type": "Educator",
+    "recipient_name": "Ms. Mary M***",
+    "recipient_id": "1130",
+    "message_subject": "Renewal Auto-Approved & Booked",
+    "message_body": "✅ Renewal Auto-Approved: De***a Me***a has been confirmed for another 24 sessions in SC-G4-Batch-K. Class roster updated automatically.",
+    "cta_action": "VIEW_ROSTER"
+  }
+]

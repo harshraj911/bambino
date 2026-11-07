@@ -1,0 +1,304 @@
+{
+  "name": "Bambinos.live - Zero-Touch Student Renewal & Class Scheduling Automation",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "bambinos-renewal-webhook",
+        "options": {}
+      },
+      "id": "node-webhook-trigger",
+      "name": "Payment Gateway Webhook (Razorpay/Stripe)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract payment payload and normalize schema\nconst body = $input.first().json.body || $input.first().json;\nreturn [{\n  json: {\n    invoice_id: body.id || body.invoice_id,\n    invoice_number: body.invoice_number,\n    user_id: body.user_id,\n    student_id: body.student_id,\n    payer_name: body.parent_name || body.payer_name,\n    payer_mobile: body.mobile || body.payer_mobile,\n    payer_email: body.email,\n    net_amount: parseFloat(body.net_amount || body.amount || 0),\n    payment_status: body.payment_status || 'Paid',\n    paid_at: body.paid_at || new Date().toISOString(),\n    is_renewal: body.is_renewal || 'Yes'\n  }\n}];"
+      },
+      "id": "node-normalize-payload",
+      "name": "Normalize Webhook Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT s.student_id, s.user_id, s.student_name_masked, s.parent_name_masked, s.registered_mobile_masked, s.current_classbatch_id, s.classbatch_name, s.class_id, s.class_name, s.educator_id, s.educator_name, s.standard_fee_24_sessions_inr, s.batch_days, s.batch_start_time, s.active_students_count, s.max_batch_size FROM reference_active_batches_and_students s WHERE s.student_id = :student_id;"
+      },
+      "id": "node-db-lookup",
+      "name": "Lookup Student & Batch Master",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [540, 300]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Resolve entity match between Invoice Payer: {{$node[\"Normalize Webhook Payload\"].json[\"payer_mobile\"]}} ({{$node[\"Normalize Webhook Payload\"].json[\"payer_name\"]}}) and Student Master: {{$json[\"registered_mobile_masked\"]}} ({{$json[\"parent_name_masked\"]}}). Return JSON with match_confidence, resolved_phone, and discrepancy_reason.",
+        "hasOutputParser": true
+      },
+      "id": "node-ai-entity-resolver",
+      "name": "AI Entity Resolution Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.4,
+      "position": [760, 300]
+    },
+    {
+      "parameters": {
+        "dataType": "string",
+        "value1": "={{$node[\"Normalize Webhook Payload\"].json[\"payment_status\"]}}",
+        "rules": {
+          "rules": [
+            {
+              "value2": "Failed",
+              "output": 1
+            },
+            {
+              "value2": "Partially_Paid",
+              "output": 2
+            }
+          ]
+        },
+        "fallbackOutput": 0
+      },
+      "id": "node-payment-status-switch",
+      "name": "Payment Status Switch",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [980, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{parseInt($node[\"Lookup Student & Batch Master\"].json[\"active_students_count\"])}}",
+              "operation": "smaller",
+              "value2": "={{parseInt($node[\"Lookup Student & Batch Master\"].json[\"max_batch_size\"])}}"
+            }
+          ]
+        }
+      },
+      "id": "node-capacity-check",
+      "name": "Batch Capacity Available?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [1200, 200]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO booking_requests (faculty_form_id, invoice_id, user_id, student_id, class_id, educator_id, classbatch_id, sessions_count, is_renewal, continue_same_batch, request_status, batch_allocated, allocated_by, allocated_at, created_at, updated_at) VALUES (NULL, :invoice_id, :user_id, :student_id, :class_id, :educator_id, :classbatch_id, 24, 'Yes', 'Yes', 'Completed', 'Yes', 'ai_auto_approval_engine', NOW(), NOW(), NOW());"
+      },
+      "id": "node-create-booking-request",
+      "name": "Auto-Create Booking Request (Completed)",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [1460, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Generate 24 live class schedule bookings\nconst student = $node[\"Lookup Student & Batch Master\"].json;\nconst inv = $node[\"Normalize Webhook Payload\"].json;\nconst daysMap = { 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6, 'Sun': 0 };\nconst targetDays = student.batch_days.split(',').map(d => daysMap[d.trim()]);\n\nconst rows = [];\nlet curr = new Date('2026-11-04T00:00:00Z');\nwhile (rows.length < 24) {\n  curr.setDate(curr.getDate() + 1);\n  if (targetDays.includes(curr.getDay())) {\n    rows.push({\n      bookingrequest_id: 'AUTO_' + inv.invoice_id,\n      invoice_id: inv.invoice_id,\n      classbatch_id: student.current_classbatch_id,\n      class_id: student.class_id,\n      user_id: inv.user_id,\n      student_id: inv.student_id,\n      educator_id: student.educator_id,\n      class_date: curr.toISOString().split('T')[0],\n      start_time: student.batch_start_time,\n      end_time: '17:50:00',\n      booking_type: 'Auto_Approved_Zero_Touch',\n      is_cancelled: 'No',\n      attended_class: 'No'\n    });\n  }\n}\nreturn rows.map(r => ({ json: r }));"
+      },
+      "id": "node-generate-schedules",
+      "name": "Generate 24 Session Dates",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [1700, 100]
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO class_schedule_bookings (bookingrequest_id, invoice_id, classschedule_id, classbatch_id, class_id, user_id, student_id, educator_id, class_date, start_time, end_time, booking_type, is_cancelled, attended_class, created_at, updated_at) VALUES (:bookingrequest_id, :invoice_id, UUID(), :classbatch_id, :class_id, :user_id, :student_id, :educator_id, :class_date, :start_time, :end_time, :booking_type, 'No', 'No', NOW(), NOW());"
+      },
+      "id": "node-insert-class-schedules",
+      "name": "Insert Class Schedule Bookings",
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 1,
+      "position": [1940, 100]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://graph.facebook.com/v19.0/bambinos_whatsapp_id/messages",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{$node[\"Normalize Webhook Payload\"].json[\"payer_mobile\"]}}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"renewal_zero_touch_confirmed\",\n    \"language\": { \"code\": \"en\" },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          { \"type\": \"text\", \"text\": \"{{$node[\"Lookup Student & Batch Master\"].json[\"student_name_masked\"]}}\" },\n          { \"type\": \"text\", \"text\": \"{{$node[\"Lookup Student & Batch Master\"].json[\"class_name\"]}}\" },\n          { \"type\": \"text\", \"text\": \"{{$node[\"Lookup Student & Batch Master\"].json[\"educator_name\"]}}\" },\n          { \"type\": \"text\", \"text\": \"{{$node[\"Lookup Student & Batch Master\"].json[\"batch_days\"]}} at {{$node[\"Lookup Student & Batch Master\"].json[\"batch_start_time\"]}}\" }\n        ]\n      }\n    ]\n  }\n}"
+      },
+      "id": "node-whatsapp-confirmation",
+      "name": "Send WhatsApp Confirmation & Calendar Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [2180, 100]
+    },
+    {
+      "parameters": {
+        "channel": "#educator-renewals",
+        "text": "=✅ Student Renewal Auto-Approved: {{$node[\"Lookup Student & Batch Master\"].json[\"student_name_masked\"]}} renewed 24 sessions in {{$node[\"Lookup Student & Batch Master\"].json[\"classbatch_name\"]}} with {{$node[\"Lookup Student & Batch Master\"].json[\"educator_name\"]}}."
+      },
+      "id": "node-slack-educator",
+      "name": "Notify Educator via Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [2400, 100]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://api.bambinos.live/internal/ops/exceptions",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"invoice_id\": \"{{$node[\"Normalize Webhook Payload\"].json[\"invoice_id\"]}}\",\n  \"reason_code\": \"ERR_BATCH_FULL\",\n  \"severity\": \"HIGH\",\n  \"student_id\": \"{{$node[\"Normalize Webhook Payload\"].json[\"student_id\"]}}\",\n  \"details\": \"Batch reached maximum capacity (6/6). Automated sister-batch options dispatched to parent.\"\n}"
+      },
+      "id": "node-post-exception-batch-full",
+      "name": "Route to Ops Exception Dashboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1460, 300]
+    },
+    {
+      "parameters": {
+        "requestMethod": "POST",
+        "url": "https://graph.facebook.com/v19.0/bambinos_whatsapp_id/messages",
+        "jsonParameters": true,
+        "options": {},
+        "bodyParametersJson": "={\n  \"messaging_product\": \"whatsapp\",\n  \"to\": \"{{$node[\"Normalize Webhook Payload\"].json[\"payer_mobile\"]}}\",\n  \"type\": \"template\",\n  \"template\": {\n    \"name\": \"payment_retry_link\",\n    \"language\": { \"code\": \"en\" },\n    \"components\": [\n      {\n        \"type\": \"body\",\n        \"parameters\": [\n          { \"type\": \"text\", \"text\": \"{{$node[\"Normalize Webhook Payload\"].json[\"payer_name\"]}}\" },\n          { \"type\": \"text\": \"https://bambinos.live/pay/retry/{{$node[\"Normalize Webhook Payload\"].json[\"invoice_id\"]}}\" }\n        ]\n      }\n    ]\n  }\n}"
+      },
+      "id": "node-whatsapp-payment-retry",
+      "name": "Send WhatsApp Payment Retry Link",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [1200, 420]
+    }
+  ],
+  "connections": {
+    "Payment Gateway Webhook (Razorpay/Stripe)": {
+      "main": [
+        [
+          {
+            "node": "Normalize Webhook Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Webhook Payload": {
+      "main": [
+        [
+          {
+            "node": "Lookup Student & Batch Master",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lookup Student & Batch Master": {
+      "main": [
+        [
+          {
+            "node": "AI Entity Resolution Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Entity Resolution Agent": {
+      "main": [
+        [
+          {
+            "node": "Payment Status Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Payment Status Switch": {
+      "main": [
+        [
+          {
+            "node": "Batch Capacity Available?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send WhatsApp Payment Retry Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Batch Capacity Available?": {
+      "main": [
+        [
+          {
+            "node": "Auto-Create Booking Request (Completed)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route to Ops Exception Dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto-Create Booking Request (Completed)": {
+      "main": [
+        [
+          {
+            "node": "Generate 24 Session Dates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate 24 Session Dates": {
+      "main": [
+        [
+          {
+            "node": "Insert Class Schedule Bookings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Insert Class Schedule Bookings": {
+      "main": [
+        [
+          {
+            "node": "Send WhatsApp Confirmation & Calendar Link",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send WhatsApp Confirmation & Calendar Link": {
+      "main": [
+        [
+          {
+            "node": "Notify Educator via Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
+

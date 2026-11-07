@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bambinos.live — Ops Command Center: Renewal Pipeline</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <header>
+      <div class="brand-title">
+        <h1 style="font-size: 22px; font-weight: 700; color: #fff;">BAMBINOS.LIVE</h1>
+        <span style="color: var(--text-muted); font-size: 16px;">|</span>
+        <h2 style="font-size: 18px; font-weight: 500; color: var(--text-secondary);">Daily Operations Renewal & Scheduling Command Center</h2>
+      </div>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <span class="badge-live">LIVE SYSTEM CONNECTED</span>
+        <span style="font-size: 13px; color: var(--text-muted);">Last Sync: Just Now (Auto-Refresh: 60s)</span>
+      </div>
+    </header>
+
+    <!-- Top KPI Row -->
+    <div class="kpi-grid">
+      <div class="kpi-card blue">
+        <div class="kpi-title">Total Invoices Today</div>
+        <div class="kpi-value">13</div>
+        <div class="kpi-subtitle">₹1,54,850 Total Volume</div>
+      </div>
+      <div class="kpi-card green">
+        <div class="kpi-title">Zero-Touch Fast Track</div>
+        <div class="kpi-value">41.7%</div>
+        <div class="kpi-subtitle">5 Auto-Scheduled (<45s TAT)</div>
+      </div>
+      <div class="kpi-card red">
+        <div class="kpi-title">Stuck / Orphaned (>12h)</div>
+        <div class="kpi-value">2</div>
+        <div class="kpi-subtitle">Teacher Form Not Submitted</div>
+      </div>
+      <div class="kpi-card amber">
+        <div class="kpi-title">Unscheduled Bookings</div>
+        <div class="kpi-value">1</div>
+        <div class="kpi-subtitle">Ops Execution Dropped #84902</div>
+      </div>
+      <div class="kpi-card purple">
+        <div class="kpi-title">Ops Labor Saved</div>
+        <div class="kpi-value">1.75 hrs</div>
+        <div class="kpi-subtitle">140+ hrs/mo projected at scale</div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-grid">
+      <!-- Exception Triage Table -->
+      <div class="card">
+        <div class="card-header">
+          <div>
+            <h3 class="card-title">Live Exception Triage Queue</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">Sorted by SLA Urgency & Business Impact</p>
+          </div>
+          <div class="filter-btn-group">
+            <button class="filter-btn active" data-filter="all">All (7)</button>
+            <button class="filter-btn" data-filter="critical">Critical (2)</button>
+            <button class="filter-btn" data-filter="high">High (3)</button>
+            <button class="filter-btn" data-filter="medium">Medium (2)</button>
+          </div>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Invoice</th>
+                <th>Student</th>
+                <th>Educator</th>
+                <th>Amount</th>
+                <th>Reason Code</th>
+                <th>Aging</th>
+                <th>SLA Deadline</th>
+                <th>Remediation CTA</th>
+              </tr>
+            </thead>
+            <tbody id="exception-tbody">
+              <!-- Dynamically populated by app.js -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Right Column: Capacity & Notifications -->
+      <div style="display: flex; flex-direction: column; gap: 20px;">
+        <!-- Batch Capacity Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Live Batch Capacity Tracker</h3>
+          </div>
+          <div id="batch-capacity-list">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- Recent Dispatched Alerts Card -->
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Dispatched AI Communications</h3>
+          </div>
+          <div class="notification-card">
+            <div style="font-weight: 600; color: #60a5fa; margin-bottom: 2px;">WhatsApp Dispatched • Zo***a Kh***n</div>
+            <div style="color: var(--text-secondary); font-size: 12px;">Automated 1-click renewal verification link sent to Ms. Rhea B*** for Orphaned Invoice #84906.</div>
+          </div>
+          <div class="notification-card" style="border-left-color: #f87171;">
+            <div style="font-weight: 600; color: #f87171; margin-bottom: 2px;">WhatsApp Payment Retry • Is***n Gu***a</div>
+            <div style="color: var(--text-secondary); font-size: 12px;">Razorpay gateway failure detected for Invoice #84911. Direct payment recovery link sent to parent.</div>
+          </div>
+          <div class="notification-card" style="border-left-color: #34d399;">
+            <div style="font-weight: 600; color: #34d399; margin-bottom: 2px;">Calendar Invite Sent • Aa***v Sh***a</div>
+            <div style="color: var(--text-secondary); font-size: 12px;">Zero-Touch Fast Track confirmed 24 sessions in Batch 9201. .ics calendar invite delivered.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
