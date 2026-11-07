@@ -138,3 +138,4 @@ WHERE i.payment_status = 'Paid'
   AND i.is_renewal = 'Yes'
   AND c.id IS NULL
   AND TIMESTAMPDIFF(HOUR, i.paid_at, NOW()) >= 24;
+

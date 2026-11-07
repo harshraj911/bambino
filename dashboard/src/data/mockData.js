@@ -412,3 +412,4 @@ export const initialBatches = [
   { id: "9209", name: "BM-G3-Batch-H", category: "Maths", educator: "Mr. Vikram S***", days: "Tue, Fri", time: "17:30", count: 4, max: 6 },
   { id: "9213", name: "SC-G4-Batch-K", category: "Science", educator: "Ms. Mary M***", days: "Tue, Thu", time: "18:00", count: 4, max: 6 }
 ];
+

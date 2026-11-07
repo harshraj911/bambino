@@ -274,7 +274,7 @@ export default function App() {
                 <Clock size={18} color="#60a5fa" />
                 Live Exceptions & Renewal Triage
               </div>
-              <p style="font-size: 12px; color: #94a3b8; margin-top: 4px;">
+              <p style={{ fontSize: '12px', color: '#94a3b8', marginTop: '4px' }}>
                 Deterministic Error Codes • Multi-Channel Dispatch • SLA Prioritization
               </p>
             </div>
@@ -546,3 +546,4 @@ export default function App() {
     </div>
   );
 }
+

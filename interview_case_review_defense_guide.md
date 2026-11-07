@@ -88,3 +88,4 @@
 | **First-Time-Right (FTR)** | 15.4% | **> 92.0%** | Scales renewals without linear Ops headcount growth |
 | **Ops Labor Saved** | 14.5 min / ticket | **< 45 sec** | **140+ hours/month saved** across 10-person team |
 | **Revenue Protected** | High leakage | **₹4,80,000 / mo** | Eliminates scheduling-gap dropout churn |
+
